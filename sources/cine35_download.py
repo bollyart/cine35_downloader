@@ -2,7 +2,7 @@
 import os
 import subprocess
 import threading
-import youtube_dl
+from yt_dlp import YoutubeDL, utils
 import time
 import datetime
 from time import sleep, mktime, strptime
@@ -201,19 +201,19 @@ class BaDownloadThread(threading.Thread):
 
         # traitement de la video    
         ydl_opts = {
-            #'format': 'best[height=720]',
-            'format': 'best',
+            'format': 'best[height=720]',
+            #'format': 'best',
             'outtmpl': os.path.join(self.ba_directory, prefix + "%(title)s.%(ext)s"),
             'restrictfilenames': True,
             'nocheckcertificate': True,
         }
 
         try:
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            with YoutubeDL(ydl_opts) as ydl:
                 info_dict = ydl.extract_info(self.ba_url, download=True)
                 # sanitize_filename est applique par YoutubeDL quand restrictfilenames=True
                 # je le rappelle ici pour conserver le meme nom de fichier
-                video_title = youtube_dl.utils.sanitize_filename(info_dict.get("title", None), restricted=True)
+                video_title = utils.sanitize_filename(info_dict.get("title", None), restricted=True)
                 video_ext = info_dict.get('ext', None)
                 filename = prefix + video_title + '.' + video_ext
                 logging.info("the file %s has been downloaded into %s" %(filename, self.ba_directory))
