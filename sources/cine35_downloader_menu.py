@@ -4,6 +4,7 @@ from consolemenu.items import *
 from time import sleep
 import requests
 import json
+from os import getenv
 
 import cine35_download
 import cine35_file_maker
@@ -13,6 +14,7 @@ import ba_dl_variables
 logging.config.dictConfig(ba_dl_variables.LOGGING)
 from pprint import pprint
 
+BACK_OFFICE_URL = getenv('CINE35_BACKOFFICE_URL')
 
 def make_file_from_api():
     file = input('Chemin du fichier à créer [%s]: ' % ba_dl_variables.default_file)
@@ -20,7 +22,7 @@ def make_file_from_api():
 
     # get info from backoffice
     date_debut = input('Date de début des séances (format YYYY-MM-DD): ')
-    response = requests.get('https://www.etoilecinema.fr/api/seances?date_debut=%s' % date_debut)
+    response = requests.get('https://%s/api/seances?date_debut=%s' % (BACK_OFFICE_URL, date_debut))
     backoffice_movies = json.loads(response.text)
     logging.info("Movies info received from backoffice: ")
     logging.info(backoffice_movies)

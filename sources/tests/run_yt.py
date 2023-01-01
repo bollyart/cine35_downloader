@@ -6,7 +6,8 @@ def run():
         print("claire")
         # traitement de la video    
         ydl_opts = {
-            'format': 'best[height=720]',
+            'format': 'b[ext=mp4][height<=1080]',
+            #'format': '-f "bv*[height<=1080]+ba/b[height<=1080]'
             #'format': 'best',
             'outtmpl': "claire_prefixe" + "%(title)s.%(ext)s",
             'restrictfilenames': True,

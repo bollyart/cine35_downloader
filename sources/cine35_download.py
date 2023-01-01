@@ -201,8 +201,8 @@ class BaDownloadThread(threading.Thread):
 
         # traitement de la video    
         ydl_opts = {
-            'format': 'best[height=720]',
-            #'format': 'best',
+            #'format': 'best[height=720]',
+            'format': 'b[ext=mp4][height<=1080]',
             'outtmpl': os.path.join(self.ba_directory, prefix + "%(title)s.%(ext)s"),
             'restrictfilenames': True,
             'nocheckcertificate': True,
